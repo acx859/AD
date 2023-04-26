@@ -7,6 +7,7 @@ public class MergeMitOpt {
     private static final int insertionGrenze = 10; // Schwellenwert für Wechsel zu InsertionSort
 
     public static <T extends Comparable<? super T>> T[] sort(T[] a) {
+
         if (a.length <= 1) return a;
         if (a.length == 2) { // Spezialfall für Arrays mit Länge 2
             if (a[0].compareTo(a[1]) > 0) {
@@ -16,12 +17,18 @@ public class MergeMitOpt {
             }
             return a;
         }
-        if (a.length  <= insertionGrenze) {
+        if (isSorted(a)) {
+            //System.out.println("if");
+            return a;
+
+        }
+        if (a.length <= insertionGrenze) {
             // Wechsel zu InsertionSort für Arrays der Größe <= 10
-            insertionsort(a, 0, a.length-1);
-        }else {
+            insertionsort(a, 0, a.length - 1);
+        } else {
             int oneThird = a.length / 3;
             int twoThirds = a.length * 2 / 3;
+
 
             T[] leftSorted = sort(Arrays.copyOfRange(a, 0, oneThird));
             T[] centerSorted = sort(Arrays.copyOfRange(a, oneThird, twoThirds));
@@ -85,9 +92,14 @@ public class MergeMitOpt {
         Comparable[] sorted = sort(in);
         String[] sortedString = Arrays.copyOf(sorted, sorted.length, String[].class);
         show(sortedString);
-        Integer []n = new Integer[100];
+        Integer[] n = new Integer[100];
         for (int i = 0; i < n.length; i++) {
-            n[i]= n.length-i;
+            if (i < 50) {
+                n[i] =n.length - i;
+
+            }else {
+                n[i] = i-50;
+            }
         }
         Comparable[] sortedNix = n;
         Integer[] sortedNummernix = Arrays.copyOf(sortedNix, sortedNix.length, Integer[].class);
