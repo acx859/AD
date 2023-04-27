@@ -11,7 +11,7 @@ public class DoublingTest {
             // Zeit für Problemgröße N
             Integer[] a = generateRandomArray(N);
             Stopwatch timer = new Stopwatch();
-            MergeSort.sort(a);
+            MergeSortDreiTeile.sort(a);
             double time = timer.elapsedTime();
             System.out.printf("%6d %7.1f\n", N, time);
         }
@@ -20,11 +20,11 @@ public class DoublingTest {
     private static Integer[] generateRandomArray(int N) {
         Integer[] n = new Integer[N];
         for (int i = 0; i < n.length; i++) {
-            if (i < 50) {
+            if (i < N/2) {
                 n[i] =n.length - i;
 
             }else {
-                n[i] = i-50;
+                n[i] = i-(N/2);
             }
         }
         return n;
