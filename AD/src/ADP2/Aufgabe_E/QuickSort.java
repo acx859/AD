@@ -2,13 +2,9 @@ package ADP2.Aufgabe_E;
 
 import edu.princeton.cs.algs4.StdRandom;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 
-import static ADP2.Aufgabe_E.SortClassCommons.isSorted;
-import static ADP2.Aufgabe_E.SortClassCommons.less;
+import static ADP2.Aufgabe_E.SortClassCommons.*;
 
 
 public class QuickSort {
@@ -22,19 +18,20 @@ public class QuickSort {
     }
 
     private static <T extends Comparable<? super T>> void sort(T[] a, int lo, int hi) {
+        if (hi <= lo) return;
         if (hi - lo + 1 <= insertionGrenze) {
             // Wechsel zu InsertionSort für Arrays der Größe <= 10
-            insertionsort(a, lo, hi);
+            InsertionSort.sort(a, lo, hi);
         } else {
-            T pivot = medianOf3FOR(a, lo, hi); // Auswahl des Pivotelements mittels Median-of-Three-Partitionierung
-            int pivotPos = partition(a, lo, hi, pivot); // Partitionierung des Arrays um das Pivotelement
-            sort(a, lo, pivotPos ); // Rekursiver Aufruf von QuickSort für das linke Teilarray vor dem Pivotelement
-            sort(a, pivotPos , hi); // Rekursiver Aufruf von QuickSort für das rechte Teilarray nach dem Pivotelement
+            int pivot = partition(a, lo, hi);
+            sort(a, lo, pivot );
+            sort(a, pivot, hi);
         }
     }
 
-    static <T extends Comparable<? super T>> int partition(T[] a, int lo, int hi, T pivot) {
+    static <T extends Comparable<? super T>> int partition(T[] a, int lo, int hi) {
         int i = lo, j = hi + 1;
+        T pivot = a[medianOf5(a, lo, hi)];
         while (true) {
             while (less(a[++i], pivot))
                 if (i == hi) break; // Suche nach einem Element größer als das Pivotelement von links
@@ -76,28 +73,25 @@ public class QuickSort {
         return array[right - 1];
     }
 
-    static <T extends Comparable<? super T>> T medianOf3FOR(T[] a, int left, int right) {
-        Random gen = new Random();
-        ArrayList<T> threeNr = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            int index = gen.nextInt(right - left + 1) + left; // Zufälliger Index innerhalb des Bereichs
-            threeNr.add(a[index]); // Wert an zufälligem Index dem ArrayList hinzufügen
+
+    static <T extends Comparable<? super T>> int medianOf5(T[] a, int lo, int hi) {
+        int mid = lo + (hi - lo) / 2;
+        int sixth = (hi - lo) / 4;
+        int[] indices = {lo, lo + sixth, mid, mid - sixth, hi};
+        for (int i = 0; i < indices.length - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < indices.length; j++) {
+// Wenn das Element an Index j kleiner als das aktuelle Minimum ist, aktualisiere den Index des Minimums
+                if (a[indices[j]].compareTo(a[indices[minIndex]]) < 0) {
+                    minIndex = j;
+                }
+            }
+// Wenn das Minimum nicht an der aktuellen Position ist, tausche es mit dem Element an der aktuellen Position aus.
+            if (minIndex != i) {
+                exch(a, indices[i], indices[minIndex]);
+            }
         }
-        Collections.sort(threeNr);
-
-        return threeNr.get(1);
-    }
-
-    static <T extends Comparable<? super T>> T medianOf5(T[] a, int left, int right) {
-        Random gen = new Random();
-        ArrayList<T> fiveNr = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            int index = gen.nextInt(right - left + 1) + left; // Zufälliger Index innerhalb des Bereichs
-            fiveNr.add(a[index]); // Wert an zufälligem Index dem ArrayList hinzufügen
-        }
-        Collections.sort(fiveNr);
-
-        return fiveNr.get(2);
+        return mid;
     }
 
     static <T extends Comparable<? super T>> T medianOf11(T[] a, int left, int right) {
@@ -125,17 +119,29 @@ public class QuickSort {
         Integer[] arr1 = {5, 3, 8, 6, 2, 7, 1, 43, 2, 4, 5, 6, 7, 8, 9, 0, 8, 23, 34, 4, 56, 67, 87, 98};
         System.out.println("Unsorted array: " + Arrays.toString(arr1));
         sort(arr1);
+        System.out.println(isSorted(arr1));
         System.out.println("Sorted array: " + Arrays.toString(arr1));
         // Test mit Integer-Array
         Integer[] arr2 = {5, 3, 8, 6,4, 2, 7, 1};
         System.out.println("Unsorted array: " + Arrays.toString(arr2));
         sort(arr2);
+        System.out.println(isSorted(arr2));
+
         System.out.println("Sorted array: " + Arrays.toString(arr2));
         // Test mit Double-Array
         Double[] arr3 = {3.5, 1.2, 4.8, 2.3, 5.7, 0.9};
         System.out.println("Unsorted array: " + Arrays.toString(arr3));
         sort(arr3);
+        System.out.println(isSorted(arr3));
+
         System.out.println("Sorted array: " + Arrays.toString(arr3));
+        //String[] a = new In(args[0]).readAllStrings();
+        Integer[] a = {1,3,56,78,34,12,3,6,78,897,234,1};
+        sort(a);
+        assert isSorted(a);
+        show(a);
+
+
     }
 }
 
