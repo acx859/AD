@@ -6,7 +6,7 @@ import edu.princeton.cs.algs4.StdRandom;
 import java.util.Arrays;
 
 import static ADP2.Aufgabe_D.MergeSort.*;
-import static ADP2.Aufgabe_E.test.exch;
+import static ADP2.Aufgabe_E.QuickSort.exch;
 
 
 public class Quick {

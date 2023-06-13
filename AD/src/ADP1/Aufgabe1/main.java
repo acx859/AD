@@ -4,8 +4,8 @@ import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Arrays;
 
-import static ADP2.Aufgabe_D.MergeSortspiel.isSorted;
-import static ADP2.Aufgabe_D.MergeSortspiel.less;
+import static ADP2.Aufgabe_D.SortClassCommons.isSorted;
+import static ADP2.Aufgabe_D.SortClassCommons.less;
 
 public class main {
 

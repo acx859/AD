@@ -11,7 +11,7 @@ public class DoublingTest {
             // Zeit für Problemgröße N
             Integer[] a = generateRandomArray(N);
             Stopwatch timer = new Stopwatch();
-            MergeMitOpt.sort(a);
+            MergeBottomUp.sort(a);
             double time = timer.elapsedTime();
             System.out.printf("%6d %7.1f\n", N, time);
         }

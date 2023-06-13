@@ -93,19 +93,25 @@ public class QuickSort {
         }
         return mid;
     }
-
-    static <T extends Comparable<? super T>> T medianOf11(T[] a, int left, int right) {
-        Random gen = new Random();
-
-        ArrayList<T> elevenNr = new ArrayList<>();
-        for (int i = 0; i < 11; i++) {
-        int index = gen.nextInt(right - left + 1) + left; // Zufälliger Index innerhalb des Bereichs
-        elevenNr.add(a[index]); // Wert an zufälligem Index dem ArrayList hinzufügen
+    private static <T extends Comparable<? super T>> int medianOf11(T[] a, int lo, int hi) {
+        int fourth = (hi - lo + 1) / 4;
+        int seventh = 2 * fourth;
+        int ninth = 3 * fourth;
+        int[] indices = {lo, lo + fourth, lo + seventh, lo + ninth, hi - fourth, hi - seventh, hi - ninth, hi};
+        for (int i = 0; i < indices.length - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < indices.length; j++) {
+                if (a[indices[j]].compareTo(a[indices[minIndex]]) < 0) {
+                    minIndex = j;
+                }
+            }
+            if (minIndex != i) {
+                exch(a, indices[i], indices[minIndex]);
+            }
         }
-        Collections.sort(elevenNr);
-
-        return elevenNr.get(5);
+        return lo + seventh;
     }
+
 
 
     public static <T extends Comparable<? super T>> void exch(T[] a, int i, int j) {
